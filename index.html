@@ -1,0 +1,1424 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Una flor para otra flor 🌻</title>
+
+<style>
+
+/* =========================
+   GENERAL
+========================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    min-height: 100vh;
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(180deg, #fff9dc, #fff0a8);
+    overflow-x: hidden;
+}
+
+.contenedor {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    padding: 25px 12px 40px;
+}
+
+.contenido {
+    width: 100%;
+    max-width: 1000px;
+    text-align: center;
+}
+
+
+/* =========================
+   INICIO
+========================= */
+
+#inicio {
+    padding-top: 15vh;
+    animation: aparecer 1.2s ease;
+}
+
+.logo {
+    font-size: 75px;
+    margin-bottom: 15px;
+    animation: flotar 2.5s ease-in-out infinite;
+}
+
+#inicio h1 {
+    color: #806000;
+    font-size: clamp(26px, 6vw, 42px);
+    margin-bottom: 12px;
+}
+
+.subtitulo {
+    color: #665b35;
+    font-size: clamp(15px, 4vw, 19px);
+    margin-bottom: 30px;
+}
+
+#botonFlor {
+    border: none;
+    background: linear-gradient(135deg, #ffe34d, #f3b800);
+    color: #5e4700;
+    font-size: 18px;
+    font-weight: bold;
+    padding: 15px 27px;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 8px 20px rgba(173, 130, 0, 0.3);
+    transition: 0.3s;
+}
+
+#botonFlor:hover {
+    transform: translateY(-3px) scale(1.03);
+}
+
+#botonFlor:active {
+    transform: scale(0.96);
+}
+
+
+/* =========================
+   ESCENA
+========================= */
+
+#escena {
+    display: none;
+    width: 100%;
+}
+
+.titulo-escena {
+    color: #705300;
+    font-size: clamp(22px, 5vw, 34px);
+    margin-bottom: 18px;
+}
+
+
+/* =========================
+   JARDÍN
+========================= */
+
+.jardin {
+    position: relative;
+    width: 100%;
+    height: 425px;
+    overflow: hidden;
+    border-radius: 25px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #84d8fa 0%,
+            #bcecff 69%,
+            #83c95c 69%,
+            #5b963d 100%
+        );
+
+    box-shadow: 0 15px 40px rgba(66, 80, 20, 0.25);
+}
+
+
+/* =========================
+   SOL
+========================= */
+
+.sol {
+    position: absolute;
+    width: 65px;
+    height: 65px;
+    top: 25px;
+    right: 35px;
+
+    background: #ffd83d;
+    border-radius: 50%;
+
+    box-shadow:
+        0 0 20px #ffe873,
+        0 0 45px rgba(255, 220, 50, 0.6);
+}
+
+
+/* =========================
+   NUBES
+========================= */
+
+.nube {
+    position: absolute;
+    width: 90px;
+    height: 28px;
+    background: white;
+    border-radius: 50px;
+    opacity: 0.8;
+}
+
+.nube::before,
+.nube::after {
+    content: "";
+    position: absolute;
+    background: white;
+    border-radius: 50%;
+}
+
+.nube::before {
+    width: 38px;
+    height: 38px;
+    left: 15px;
+    top: -18px;
+}
+
+.nube::after {
+    width: 48px;
+    height: 48px;
+    right: 12px;
+    top: -25px;
+}
+
+.nube-1 {
+    top: 70px;
+    left: 55px;
+}
+
+.nube-2 {
+    top: 120px;
+    left: 45%;
+    transform: scale(0.65);
+}
+
+
+/* =========================
+   SUELO
+========================= */
+
+.suelo {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 82px;
+
+    background:
+        radial-gradient(
+            circle at 20% 30%,
+            #78b94e 0 3px,
+            transparent 4px
+        ),
+        radial-gradient(
+            circle at 70% 60%,
+            #78b94e 0 3px,
+            transparent 4px
+        ),
+        linear-gradient(#6eb34a, #579238);
+}
+
+
+/* =========================
+   FLORES
+========================= */
+
+.flores {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+}
+
+.flor {
+    position: absolute;
+    bottom: 55px;
+
+    width: var(--size);
+    height: var(--height);
+
+    left: var(--left);
+
+    transform: translateX(-50%);
+}
+
+
+/* =========================
+   TALLO
+========================= */
+
+.tallo {
+    position: absolute;
+
+    left: 50%;
+    bottom: 0;
+
+    width: var(--stem-width);
+    height: var(--stem-height);
+
+    background:
+        linear-gradient(
+            90deg,
+            #27772d,
+            #50a940,
+            #28772e
+        );
+
+    border-radius: 20px;
+
+    transform:
+        translateX(-50%)
+        scaleY(0);
+
+    transform-origin: bottom;
+
+    z-index: 2;
+}
+
+
+/* =========================
+   HOJAS
+========================= */
+
+.hoja {
+    position: absolute;
+
+    width: 32px;
+    height: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #65bd45,
+            #247b2d
+        );
+
+    opacity: 0;
+}
+
+.hoja-izquierda {
+    left: -27px;
+    top: 45%;
+
+    border-radius: 100% 0 100% 0;
+
+    transform:
+        rotate(-25deg)
+        scale(0);
+}
+
+.hoja-derecha {
+    right: -27px;
+    top: 68%;
+
+    border-radius: 0 100% 0 100%;
+
+    transform:
+        rotate(25deg)
+        scale(0);
+}
+
+
+/* =========================
+   CABEZA DE FLOR
+========================= */
+
+.cabeza-flor {
+    position: absolute;
+
+    left: 50%;
+
+    bottom: calc(var(--stem-height) - 4px);
+
+    width: var(--flower-size);
+    height: var(--flower-size);
+
+    transform:
+        translateX(-50%)
+        scale(0);
+
+    opacity: 0;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   PÉTALOS
+========================= */
+
+.petalo {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 43%;
+    height: 62%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #fff36a,
+            #ffd21c,
+            #f3aa00
+        );
+
+    border-radius: 55% 55% 45% 45%;
+
+    transform-origin: 50% 90%;
+}
+
+.petalo-1  { transform: translate(-50%, -90%) rotate(0deg); }
+.petalo-2  { transform: translate(-50%, -90%) rotate(30deg); }
+.petalo-3  { transform: translate(-50%, -90%) rotate(60deg); }
+.petalo-4  { transform: translate(-50%, -90%) rotate(90deg); }
+.petalo-5  { transform: translate(-50%, -90%) rotate(120deg); }
+.petalo-6  { transform: translate(-50%, -90%) rotate(150deg); }
+.petalo-7  { transform: translate(-50%, -90%) rotate(180deg); }
+.petalo-8  { transform: translate(-50%, -90%) rotate(210deg); }
+.petalo-9  { transform: translate(-50%, -90%) rotate(240deg); }
+.petalo-10 { transform: translate(-50%, -90%) rotate(270deg); }
+.petalo-11 { transform: translate(-50%, -90%) rotate(300deg); }
+.petalo-12 { transform: translate(-50%, -90%) rotate(330deg); }
+
+
+/* =========================
+   CENTRO
+========================= */
+
+.centro {
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    width: 31%;
+    height: 31%;
+
+    transform: translate(-50%, -50%);
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            #9a5900 0 25%,
+            #713b00 28% 60%,
+            #432000 65%
+        );
+
+    box-shadow:
+        inset 0 0 8px rgba(0,0,0,0.4),
+        0 2px 5px rgba(0,0,0,0.3);
+}
+
+
+/* =========================
+   BRILLO
+========================= */
+
+.cabeza-flor::after {
+    content: "";
+
+    position: absolute;
+    inset: -20%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,245,100,0.75),
+            rgba(255,220,30,0.25) 40%,
+            transparent 70%
+        );
+
+    opacity: 0;
+
+    z-index: -1;
+}
+
+
+/* =========================
+   MARIPOSAS
+========================= */
+
+.mariposa {
+    position: absolute;
+
+    font-size: 22px;
+
+    opacity: 0;
+
+    z-index: 30;
+
+    pointer-events: none;
+
+    display: block;
+}
+
+
+/* POSICIONES */
+
+.mariposa-1 {
+    left: 5%;
+    top: 28%;
+}
+
+.mariposa-2 {
+    left: 18%;
+    top: 18%;
+}
+
+.mariposa-3 {
+    left: 32%;
+    top: 35%;
+}
+
+.mariposa-4 {
+    left: 45%;
+    top: 15%;
+}
+
+.mariposa-5 {
+    left: 58%;
+    top: 32%;
+}
+
+.mariposa-6 {
+    left: 70%;
+    top: 17%;
+}
+
+.mariposa-7 {
+    left: 82%;
+    top: 28%;
+}
+
+.mariposa-8 {
+    left: 92%;
+    top: 15%;
+}
+
+
+/* MARIPOSAS VISIBLES */
+
+.mostrar-mariposas .mariposa {
+    opacity: 1;
+}
+
+
+/* VELOCIDADES */
+
+.mostrar-mariposas .mariposa-1 {
+    animation: volar1 6s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-2 {
+    animation: volar2 7s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-3 {
+    animation: volar3 6.5s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-4 {
+    animation: volar4 8s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-5 {
+    animation: volar5 7.2s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-6 {
+    animation: volar6 6.8s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-7 {
+    animation: volar7 8.5s ease-in-out infinite;
+}
+
+.mostrar-mariposas .mariposa-8 {
+    animation: volar8 7.8s ease-in-out infinite;
+}
+
+
+/* =========================
+   ANIMACIONES MARIPOSAS
+========================= */
+
+@keyframes volar1 {
+
+    0%,100% {
+        transform: translate(0,0) rotate(-8deg);
+    }
+
+    50% {
+        transform: translate(80px,-45px) rotate(10deg);
+    }
+}
+
+@keyframes volar2 {
+
+    0%,100% {
+        transform: translate(0,0) rotate(8deg);
+    }
+
+    50% {
+        transform: translate(60px,35px) rotate(-10deg);
+    }
+}
+
+@keyframes volar3 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(-50px,-40px) rotate(12deg);
+    }
+}
+
+@keyframes volar4 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(80px,45px) rotate(-12deg);
+    }
+}
+
+@keyframes volar5 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(-70px,-50px) rotate(10deg);
+    }
+}
+
+@keyframes volar6 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(55px,45px) rotate(-10deg);
+    }
+}
+
+@keyframes volar7 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(-80px,-40px) rotate(10deg);
+    }
+}
+
+@keyframes volar8 {
+
+    0%,100% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(-60px,50px) rotate(-8deg);
+    }
+}
+
+
+/* =========================
+   PARTÍCULAS
+========================= */
+
+.particula {
+    position: absolute;
+
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    background: #fff4a0;
+
+    opacity: 0;
+
+    z-index: 15;
+}
+
+.particula:nth-of-type(1) {
+    left: 10%;
+    top: 30%;
+}
+
+.particula:nth-of-type(2) {
+    left: 22%;
+    top: 50%;
+}
+
+.particula:nth-of-type(3) {
+    left: 38%;
+    top: 25%;
+}
+
+.particula:nth-of-type(4) {
+    left: 55%;
+    top: 40%;
+}
+
+.particula:nth-of-type(5) {
+    left: 70%;
+    top: 28%;
+}
+
+.particula:nth-of-type(6) {
+    left: 80%;
+    top: 50%;
+}
+
+.particula:nth-of-type(7) {
+    left: 92%;
+    top: 35%;
+}
+
+
+/* =========================
+   ANIMACIÓN TALLOS
+========================= */
+
+.crecer-tallos .tallo {
+
+    animation:
+        crecerTallo
+        2.4s
+        cubic-bezier(.3,.8,.3,1)
+        forwards;
+}
+
+@keyframes crecerTallo {
+
+    from {
+        transform:
+            translateX(-50%)
+            scaleY(0);
+    }
+
+    to {
+        transform:
+            translateX(-50%)
+            scaleY(1);
+    }
+}
+
+
+/* =========================
+   ANIMACIÓN HOJAS
+========================= */
+
+.mostrar-hojas .hoja {
+
+    animation:
+        aparecerHoja
+        0.9s
+        ease
+        forwards;
+}
+
+@keyframes aparecerHoja {
+
+    from {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    to {
+        opacity: 1;
+        transform:
+            rotate(25deg)
+            scale(1);
+    }
+}
+
+
+/* =========================
+   FLORECER
+========================= */
+
+.florecer-todas .cabeza-flor {
+
+    animation:
+        florecer
+        1.7s
+        cubic-bezier(.2,.8,.2,1)
+        forwards;
+}
+
+@keyframes florecer {
+
+    0% {
+        transform:
+            translateX(-50%)
+            scale(0);
+
+        opacity: 0;
+    }
+
+    60% {
+        transform:
+            translateX(-50%)
+            scale(1.12);
+
+        opacity: 1;
+    }
+
+    100% {
+        transform:
+            translateX(-50%)
+            scale(1);
+
+        opacity: 1;
+    }
+}
+
+
+/* =========================
+   BRILLO
+========================= */
+
+.brillar-flores .cabeza-flor::after {
+
+    animation:
+        brilloFlor
+        2s
+        ease-in-out
+        infinite;
+}
+
+@keyframes brilloFlor {
+
+    0%,100% {
+        opacity: 0.15;
+        transform: scale(0.9);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.15);
+    }
+}
+
+
+/* =========================
+   PARTÍCULAS
+========================= */
+
+.mostrar-particulas .particula {
+
+    animation:
+        particulaBrillo
+        2.8s
+        ease-in-out
+        infinite;
+}
+
+@keyframes particulaBrillo {
+
+    0%,100% {
+        opacity: 0.1;
+        transform: translateY(0);
+    }
+
+    50% {
+        opacity: 1;
+        transform: translateY(-20px);
+    }
+}
+
+
+/* =========================
+   MENSAJE FINAL
+========================= */
+
+#mensaje-final {
+
+    display: none;
+
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding:
+        5px 15px 10px;
+
+    color: #735500;
+
+    animation:
+        aparecerMensaje
+        1.5s
+        ease;
+}
+
+#mensaje-final h2 {
+
+    font-size:
+        clamp(
+            24px,
+            6vw,
+            36px
+        );
+
+    margin-bottom: 10px;
+}
+
+#mensaje-final p {
+
+    font-size:
+        clamp(
+            15px,
+            4vw,
+            19px
+        );
+
+    line-height: 1.5;
+
+    max-width: 750px;
+
+    margin: 0 auto;
+}
+
+.fecha {
+
+    margin-top: 12px;
+
+    font-weight: bold;
+
+    color: #c58b00;
+}
+
+@keyframes aparecerMensaje {
+
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+
+    .contenedor {
+        padding:
+            18px 10px 30px;
+    }
+
+    .jardin {
+        height: 390px;
+        border-radius: 18px;
+    }
+
+    .suelo {
+        height: 72px;
+    }
+
+    .sol {
+        width: 48px;
+        height: 48px;
+        right: 22px;
+        top: 20px;
+    }
+
+    .mariposa {
+        font-size: 18px;
+    }
+
+    #mensaje-final {
+        margin-top: 20px;
+    }
+
+    #mensaje-final h2 {
+        font-size: 25px;
+    }
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="contenedor">
+
+<div class="contenido">
+
+
+<!-- =================================================
+     PANTALLA INICIAL
+================================================== -->
+
+<section id="inicio">
+
+    <div class="logo">
+        🌻
+    </div>
+
+    <h1>
+        Una pequeña sorpresa
+    </h1>
+
+    <p class="subtitulo">
+        Hay detalles que no necesitan muchas palabras...
+    </p>
+
+    <button id="botonFlor" type="button">
+        🌻 Una flor para otra flor
+    </button>
+
+</section>
+
+
+
+<!-- =================================================
+     ESCENA
+================================================== -->
+
+<section id="escena">
+
+    <h2 class="titulo-escena">
+        Para ti, este 21 de septiembre 💛
+    </h2>
+
+
+    <div class="jardin">
+
+
+        <!-- SOL -->
+
+        <div class="sol"></div>
+
+
+        <!-- NUBES -->
+
+        <div class="nube nube-1"></div>
+
+        <div class="nube nube-2"></div>
+
+
+        <!-- SUELO -->
+
+        <div class="suelo"></div>
+
+
+        <!-- FLORES -->
+
+        <div
+            class="flores"
+            id="flores">
+        </div>
+
+
+        <!-- PARTÍCULAS -->
+
+        <div class="particula"></div>
+        <div class="particula"></div>
+        <div class="particula"></div>
+        <div class="particula"></div>
+        <div class="particula"></div>
+        <div class="particula"></div>
+        <div class="particula"></div>
+
+
+        <!-- 8 MARIPOSAS -->
+
+        <div class="mariposa mariposa-1">🦋</div>
+        <div class="mariposa mariposa-2">🦋</div>
+        <div class="mariposa mariposa-3">🦋</div>
+        <div class="mariposa mariposa-4">🦋</div>
+        <div class="mariposa mariposa-5">🦋</div>
+        <div class="mariposa mariposa-6">🦋</div>
+        <div class="mariposa mariposa-7">🦋</div>
+        <div class="mariposa mariposa-8">🦋</div>
+
+
+    </div>
+
+
+    <!-- MENSAJE FUERA DEL JARDÍN -->
+
+    <div id="mensaje-final">
+
+        <h2>
+            Una flor para otra flor 🌻
+        </h2>
+
+        <p>
+            Porque existen personas que,
+            sin darse cuenta, hacen que
+            todo a su alrededor florezca
+            un poquito más.
+        </p>
+
+        <div class="fecha">
+            💛 21 de septiembre 💛
+        </div>
+
+    </div>
+
+</section>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* =====================================================
+   ELEMENTOS
+===================================================== */
+
+const boton =
+    document.getElementById("botonFlor");
+
+const inicio =
+    document.getElementById("inicio");
+
+const escena =
+    document.getElementById("escena");
+
+const flores =
+    document.getElementById("flores");
+
+const mensaje =
+    document.getElementById("mensaje-final");
+
+
+/* =====================================================
+   CONFIGURACIÓN DE LAS 16 FLORES
+===================================================== */
+
+const floresConfig = [
+
+    { left: 3,  size: 48,  height: 135, stem: 95 },
+    { left: 9,  size: 58,  height: 150, stem: 105 },
+    { left: 15, size: 45,  height: 125, stem: 88 },
+    { left: 21, size: 68,  height: 165, stem: 110 },
+    { left: 28, size: 50,  height: 140, stem: 98 },
+    { left: 34, size: 62,  height: 155, stem: 105 },
+    { left: 40, size: 47,  height: 130, stem: 92 },
+
+    /* CENTRAL */
+    { left: 50, size: 105, height: 205, stem: 135 },
+
+    { left: 59, size: 50,  height: 135, stem: 92 },
+    { left: 65, size: 65,  height: 160, stem: 108 },
+    { left: 71, size: 48,  height: 130, stem: 90 },
+    { left: 77, size: 68,  height: 165, stem: 110 },
+    { left: 83, size: 50,  height: 140, stem: 96 },
+    { left: 88, size: 62,  height: 155, stem: 105 },
+    { left: 94, size: 46,  height: 128, stem: 90 },
+    { left: 98, size: 54,  height: 140, stem: 96 }
+
+];
+
+
+/* =====================================================
+   CREAR FLORES
+===================================================== */
+
+function crearFlor(config, numero) {
+
+    const flor =
+        document.createElement("div");
+
+    flor.className =
+        "flor flor-" + numero;
+
+    flor.style.setProperty(
+        "--left",
+        config.left + "%"
+    );
+
+    flor.style.setProperty(
+        "--size",
+        config.size + "px"
+    );
+
+    flor.style.setProperty(
+        "--height",
+        config.height + "px"
+    );
+
+    flor.style.setProperty(
+        "--stem-height",
+        config.stem + "px"
+    );
+
+    flor.style.setProperty(
+        "--stem-width",
+        numero === 8 ? "8px" : "5px"
+    );
+
+    flor.style.setProperty(
+        "--flower-size",
+        config.size + "px"
+    );
+
+
+    /* TALLO */
+
+    const tallo =
+        document.createElement("div");
+
+    tallo.className =
+        "tallo";
+
+
+    /* HOJA IZQUIERDA */
+
+    const hojaIzq =
+        document.createElement("span");
+
+    hojaIzq.className =
+        "hoja hoja-izquierda";
+
+
+    /* HOJA DERECHA */
+
+    const hojaDer =
+        document.createElement("span");
+
+    hojaDer.className =
+        "hoja hoja-derecha";
+
+
+    tallo.appendChild(
+        hojaIzq
+    );
+
+    tallo.appendChild(
+        hojaDer
+    );
+
+
+    /* CABEZA */
+
+    const cabeza =
+        document.createElement("div");
+
+    cabeza.className =
+        "cabeza-flor";
+
+
+    /* 12 PÉTALOS */
+
+    for (
+        let i = 1;
+        i <= 12;
+        i++
+    ) {
+
+        const petalo =
+            document.createElement("span");
+
+        petalo.className =
+            "petalo petalo-" + i;
+
+        cabeza.appendChild(
+            petalo
+        );
+    }
+
+
+    /* CENTRO */
+
+    const centro =
+        document.createElement("div");
+
+    centro.className =
+        "centro";
+
+    cabeza.appendChild(
+        centro
+    );
+
+
+    /* ARMAR FLOR */
+
+    flor.appendChild(
+        tallo
+    );
+
+    flor.appendChild(
+        cabeza
+    );
+
+    flores.appendChild(
+        flor
+    );
+}
+
+
+/* =====================================================
+   CREAR LAS 16 FLORES
+===================================================== */
+
+floresConfig.forEach(
+    (config, index) => {
+
+        crearFlor(
+            config,
+            index + 1
+        );
+
+    }
+);
+
+
+/* =====================================================
+   BOTÓN
+===================================================== */
+
+boton.addEventListener(
+    "click",
+    iniciarAnimacion
+);
+
+
+/* =====================================================
+   FUNCIÓN PRINCIPAL
+===================================================== */
+
+function iniciarAnimacion() {
+
+    /* Ocultar inicio */
+
+    inicio.style.display =
+        "none";
+
+
+    /* Mostrar escena */
+
+    escena.style.display =
+        "block";
+
+
+    /* Tallos */
+
+    setTimeout(
+        function() {
+
+            flores.classList.add(
+                "crecer-tallos"
+            );
+
+        },
+        400
+    );
+
+
+    /* Hojas */
+
+    setTimeout(
+        function() {
+
+            flores.classList.add(
+                "mostrar-hojas"
+            );
+
+        },
+        2900
+    );
+
+
+    /* Flores */
+
+    setTimeout(
+        function() {
+
+            flores.classList.add(
+                "florecer-todas"
+            );
+
+        },
+        4100
+    );
+
+
+    /* Brillo */
+
+    setTimeout(
+        function() {
+
+            flores.classList.add(
+                "brillar-flores"
+            );
+
+            flores.classList.add(
+                "mostrar-particulas"
+            );
+
+        },
+        6000
+    );
+
+
+    /* Mariposas */
+
+    setTimeout(
+        function() {
+
+            escena.classList.add(
+                "mostrar-mariposas"
+            );
+
+        },
+        7100
+    );
+
+
+    /* Mensaje */
+
+    setTimeout(
+        function() {
+
+            mensaje.style.display =
+                "block";
+
+        },
+        8800
+    );
+
+}
+
+</script>
+
+
+</body>
+
+</html>
